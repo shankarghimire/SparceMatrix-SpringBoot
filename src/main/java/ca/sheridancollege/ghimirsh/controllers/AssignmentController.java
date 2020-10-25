@@ -1,12 +1,12 @@
 package ca.sheridancollege.ghimirsh.controllers;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Random;
+//import java.io.BufferedReader;
+//import java.io.File;
+//import java.io.FileReader;
+//import java.io.IOException;
+//import java.util.Random;
 
-import org.springframework.core.io.ClassPathResource;
+//import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,14 +52,10 @@ public class AssignmentController {
 			System.out.println(objCSRFormat.toString());
 			return "output";
 		}
-		catch(IOException e) {
+		catch(Exception e) {
 			return e.getMessage();
 		}
-		finally {
-			
-		}
-		
-		
+				
 	}
 
 	@GetMapping("/output")

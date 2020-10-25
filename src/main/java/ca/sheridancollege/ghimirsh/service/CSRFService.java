@@ -2,15 +2,17 @@ package ca.sheridancollege.ghimirsh.service;
 
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.StringTokenizer;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,9 @@ public class CSRFService {
 			//calls method to fill Sparce Matrix elements
 			fillMatrix(temp);
 			
+			//method call to write matrix to text file
+			writeMatrixToFile(temp);
+			
 			//calls method to print matrix on console for testing purpose
 			temp.printMatrix();
 		}
@@ -55,6 +60,7 @@ public class CSRFService {
 		
 		//calls method that calculate the array V, J and I for the CSR format
 		calculateVJI(temp);
+		
 		
 		return temp;
 	}
@@ -69,7 +75,9 @@ public class CSRFService {
 		double th = obj.getThresHold();
 		
 		//Creates a 2D array-matrix to hold sparce matrix elements as size specified by user
-		double[][] mat = new double[obj.getRowSize()][obj.getColSize()];
+		int rowSize = obj.getRowSize();
+		int colSize = obj.getColSize();
+		double[][] mat = new double[rowSize][colSize];
 		
 		//code to fill every sparce matrix element
 		//first for loop to generate row-value
@@ -120,7 +128,9 @@ public class CSRFService {
 		//code to declare V, J and I array
 		double[]tempArrV = new double[totalNonZeroElement];
 		int [] tempArrJ = new int[totalNonZeroElement];
-		int[] tempArrI = new int[obj.getRowSize() + 1];
+		int totalRows = obj.getRowSize();
+		totalRows = totalRows + 1;
+		int[] tempArrI = new int[totalRows];
 		
 		//Code to calculate V, J & I
 		tempArrI[0] = 0;
@@ -163,10 +173,11 @@ public class CSRFService {
 		obj.setArrI(tempArrI);
 		
 		
-		//Creating List
+		//Creating temp List for V, J & I
 		List<Double> tempListV = new ArrayList<>();
 		List<Integer>tempListJ = new ArrayList<>();
 		List<Integer>tempListI = new ArrayList<>();
+		
 		tempListI.add(0);
 		int countElement = 0;
 		for(int i = 0; i < obj.getMatrix().length; i++) {
@@ -194,33 +205,124 @@ public class CSRFService {
 	}
 	
 	public void readMatrixFromFile(CSRFormat obj) {
-	
-		File file;
+		FileReader fr;
+		BufferedReader br;
+		int rowSize = 0;
+		int colSize = 0;
+		int lineCount = 0;
+		String line;
+		String data;
 		try {
+			
+			File file;
+			StringTokenizer st;
+			double[][] tempMatrix ;
 			file = new ClassPathResource("output.txt").getFile();
-			FileReader fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
-			String line = br.readLine();
-			String data = new String();
-			while(line != null) {
-				data += line + "\n";
-				line = br.readLine();
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			
+			line = br.readLine();
+			data = new String();
+			if(line != null) {
+				st = new StringTokenizer(line);
+				data = st.nextToken();
+				rowSize = Integer.parseInt(data);
+				data = st.nextToken();
+				colSize = Integer.parseInt(data);
 			}
-			System.out.println("Reading data from txt file : " +  data);
+			obj.setRowSize(rowSize);
+			obj.setColSize(colSize);
+			tempMatrix = new double[rowSize][colSize];
+			
+			//To read first line for matrix size
+			
+			
+			//String data = new String();
+			//double[][] tempMatrix;
+			lineCount = 0;
+			int rowIndex = 0;
+			int colIndex = 0;
+			while(line != null) {
+				colIndex = 0;
+				lineCount++;		
+				if(lineCount > 1) {		
+					st = new StringTokenizer(line);
+					while(st.hasMoreTokens()) {
+						double element = Double.parseDouble(st.nextToken());
+						tempMatrix[rowIndex][colIndex] = element;
+						colIndex++;
+					}
+					rowIndex++;
+				}
+				//data += line + "\n";
+				line = br.readLine();
+				
+			}
+			//System.out.println("Reading data from txt file : " +  data);
 			//fillMatrix(temp);
 			//temp = objCSRFService.testCSRFService(temp);
-
+			obj.setMatrix(tempMatrix);
 			
 			System.out.println("Printed from Controller");
-			temp.printMatrix();
+			obj.printMatrix();
 			//calculateVJI(temp);
 			System.out.println(obj.toString());
 			//return "output";
-		}
-		catch(IOException e) {
+		}catch(IOException e) {
+			System.out.println(e.getMessage());
 			//return e.getMessage();
+			//br.close();
 		}
 		finally {
+			//br.close();
+			
+		}
+	}
+	
+	private void writeMatrixToFile(CSRFormat obj) {
+		File file;
+		FileWriter fw;
+		BufferedWriter bw;
+		int rowSize = 0;
+		int colSize = 0;
+		double element = 0;
+		String line;
+		try {
+			//file = new ClassPathResource("outputMatrix.txt").getFile();
+			//file = new File("classpath:resources/static/output1.txt");
+			file = new File("output2.txt");
+			if(!file.exists()) {
+				file.createNewFile();
+			}
+			
+			fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
+			
+			rowSize = obj.getRowSize();
+			colSize = obj.getColSize();
+			
+			line = String.valueOf(rowSize)+ " " + String.valueOf(colSize);
+			bw.write(line);
+			bw.newLine();
+			double[][] tempMatrix = obj.getMatrix();
+			for(int i = 0; i < tempMatrix.length; i++ ) {
+				line = "";
+				for(int j = 0; j < tempMatrix[i].length; j++) {
+					element = tempMatrix[i][j];
+					line += String.valueOf(element) +" ";					
+				}
+				bw.write(line);
+				bw.newLine();
+			}
+			
+			bw.close();
+			fw.close();
+		}
+		catch(Exception e) {
+			
+		}
+		finally {
+			//bw.close();
 			
 		}
 	}
