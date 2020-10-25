@@ -27,7 +27,7 @@ public class AssignmentController {
 		//fillMatrix(temp);
 		//temp = objCSRFService.testCSRFService(temp);
 
-		model.addAttribute("test", temp);
+		model.addAttribute("testCSRFormat", temp);
 		System.out.println("Printed from Controller");
 		temp.printMatrix();
 		//calculateVJI(temp);

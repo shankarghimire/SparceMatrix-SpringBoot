@@ -17,18 +17,37 @@
         	<h3>Enterprise Java Development</h3>
         
         </header>
+        <!-- 
         <nav>
+        
             <ul>
                 <li> <a href="/">Home</a> </li>
                 <li> <a href="/output">Output</a> </li>
                 <li> <a href="/contact">Contact</a> </li>
                 <li> <a href="/aboutus">About Us</a> </li>
             </ul>
+             
         </nav>
+        -->
         <main>
 			<div>
+				<a href="/">Back</a> 
 				<h1>Output</h1>
-				<h2>Coming soon...</h2>
+				<hr>
+			</div>
+			<div>
+			<p> 
+				Rows: <span th:text="${testCSRFormat.rowSize}"></span> &nbsp;&nbsp;Cols: <span th:text= "${testCSRFormat.colSize}" ></span>
+			</p>
+			<p>
+				V: <span th:text="${testCSRFormat.listV}"></span>
+			</p>
+			<p>
+				J: <span th:text="${testCSRFormat.listJ}"></span>
+			</p>
+			<p>
+				I: <span th:text="${testCSRFormat.listI}"></span>
+			</p>
 			</div>
         </main>
         <footer>
