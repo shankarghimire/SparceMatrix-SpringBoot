@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assignment 1: Shankar Ghimire</title>
+<link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+	<div class="container">
+
+		<header>
+			<h1>Shankar Ghimire</h1>
+			
+			<h3>Enterprise Java Development</h3>
+		</header>
+		<nav>
+			<ul>
+				<li><a href="/">Home</a></li>
+				<li><a href="/assignment1">Assignment-01</a></li>
+				<li><a href="/contact">Contact</a></li>
+				<li><a href="/aboutus">About Us</a></li>
+			</ul>
+		</nav>
+		<main>
+			<div class="main-div">
+				<h1>Assignment: 01</h1>
+				<hr class="main-hr">
+			</div>
+			<section class="form-section">
+				<h2>Sparce Matrix Generation</h2>
+				<form action="#" th:action="@{/add}" th:object="${objCSRFormat}"  method="get" >
+				<fieldset class="outer-fieldset">
+					<legend>Compressed Sparce Row Format for Sparce Matrix:</legend>
+				
+					<label>Read Matrix from file ? <input type="checkbox" name="readFromFile" id="readFromFile" th:field="*{readFromFile}"></input> </label>
+					
+					<fieldset class="inner-fieldset">
+						<legend>Enter Matrix Size (Rows & Columns): </legend>
+							<!--  <label>Enter the size of matrix : </label>	-->	
+					<label for="rowSize">Rows:  </label> <input type="number" name="rowSize" id="rowSize" th:field="*{rowSize}"></input>
+					<label for="colSize">Columns: </label> <input type="number" name="colSize" th:field="*{colSize}"></input>
+					
+					</fieldset>		
+					<fieldset class="inner-fieldset">
+						<legend>Enter the range of Thresh Hold value: </legend>
+						<label for="minRange">Min. Value  </label> <input type="text" name="minRange" id="minRange" th:field="*{minRange}"> 
+					<label for="maxRange">Max. Value    </label> <input type="text" name="maxRange" id="maxRange" th:field="*{maxRange}">
+					</fieldset>
+										
+					<fieldset class="inner-fieldset">
+						<legend>Choose an Option for output : </legend>
+						<select name="userOption" th:field="*{userOption}">
+							<option th:each="c:*{availableOptions}"      th:value="${c}" th:text="${c}"></option>
+						</select>
+					</fieldset>					
+					<fieldset class="inner-fieldset">
+						<input type="submit" value="Submit">
+					</fieldset>
+				
+					</fieldset>
+				</form>
+			</section>
+		</main>
+		<footer> Copy right &copy;Shankar Ghimire </footer>
+	</div>
+</body>
+</html>
