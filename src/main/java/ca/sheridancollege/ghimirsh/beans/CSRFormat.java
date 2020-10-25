@@ -1,5 +1,6 @@
 package ca.sheridancollege.ghimirsh.beans;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,31 +8,20 @@ public class CSRFormat {
 	private boolean readFromFile;
 	private int rowSize;
 	private int colSize;
-	private double minRange;
-	private double maxRange;
-	private List<Integer> arrV;
-	private List<Integer> arrJ;
-	private List<Integer> arrI;
+	private double [][]matrix;
+	private double thresHold;
+	
+	private List<Double> arrV = new ArrayList<>();
+	private List<Integer> arrJ = new ArrayList<>();
+	private List<Integer> arrI = new ArrayList<>();
 	private String userOption;
 	
 	private String[] availableOptions = {"-Choose an Option-","V", "J","I"};
 	public CSRFormat() {
-		super();
+		
 	}
-	public CSRFormat(boolean readFromFile, int rowSize, int colSize, double minRange, double maxRange,
-			List<Integer> arrV, List<Integer> arrJ, List<Integer> arrI, String userOption, String[] availableOptions) {
-		super();
-		this.readFromFile = readFromFile;
-		this.rowSize = rowSize;
-		this.colSize = colSize;
-		this.minRange = minRange;
-		this.maxRange = maxRange;
-		this.arrV = arrV;
-		this.arrJ = arrJ;
-		this.arrI = arrI;
-		this.userOption = userOption;
-		this.availableOptions = availableOptions;
-	}
+	
+	
 	public boolean isReadFromFile() {
 		return readFromFile;
 	}
@@ -50,35 +40,33 @@ public class CSRFormat {
 	public void setColSize(int colSize) {
 		this.colSize = colSize;
 	}
-	public double getMinRange() {
-		return minRange;
+	
+	public double getThresHold() {
+		return thresHold;
 	}
-	public void setMinRange(double minRange) {
-		this.minRange = minRange;
+
+	public void setThresHold(double thresHold) {
+		this.thresHold = thresHold;
 	}
-	public double getMaxRange() {
-		return maxRange;
-	}
-	public void setMaxRange(double maxRange) {
-		this.maxRange = maxRange;
-	}
-	public List<Integer> getArrV() {
+
+	public List<Double> getArrV() {
 		return arrV;
 	}
-	public void setArrV(List<Integer> arrV) {
-		this.arrV = arrV;
+	public void setArrV(Double e) {
+		this.arrV.add(e);
+		//this.arrV;
 	}
 	public List<Integer> getArrJ() {
 		return arrJ;
 	}
-	public void setArrJ(List<Integer> arrJ) {
-		this.arrJ = arrJ;
+	public void setArrJ(Integer arrJ) {
+		this.arrJ.add(arrJ);
 	}
 	public List<Integer> getArrI() {
 		return arrI;
 	}
-	public void setArrI(List<Integer> arrI) {
-		this.arrI = arrI;
+	public void setArrI(Integer arrI) {
+		this.arrI.add(arrI);
 	}
 	public String getUserOption() {
 		return userOption;
@@ -92,11 +80,40 @@ public class CSRFormat {
 	public void setAvailableOptions(String[] availableOptions) {
 		this.availableOptions = availableOptions;
 	}
+
+
+	public double[][] getMatrix() {
+		return matrix;
+	}
+
+
+	public void setMatrix(double[][] matrix) {
+		this.matrix = matrix;
+	}
+
+	public void printMatrix() {
+		System.out.println("Auto-generated sparce matrix : ");
+		System.out.println();
+		for(int row = 0; row < matrix.length; row++) {
+			for(int col = 0; col < matrix[row].length; col++) {
+				System.out.printf("%7.1f",matrix[row][col]);
+			}
+			System.out.println();
+		}
+		System.out.println();
+	}
+
+
 	@Override
 	public String toString() {
-		return "CSRFormat [readFromFile=" + readFromFile + ", rowSize=" + rowSize + ", colSize=" + colSize
-				+ ", minRange=" + minRange + ", maxRange=" + maxRange + ", arrV=" + arrV + ", arrJ=" + arrJ + ", arrI="
+		return "CSRFormat [readFromFile=" + readFromFile + ", rowSize=" + rowSize + ", colSize=" + colSize + ", matrix="
+				+ Arrays.toString(matrix) + ", thresHold=" + thresHold + ", arrV=" + arrV + ", arrJ=" + arrJ + ", arrI="
 				+ arrI + ", userOption=" + userOption + ", availableOptions=" + Arrays.toString(availableOptions) + "]";
 	}
+
+
+
+	
+	
 		
 }
