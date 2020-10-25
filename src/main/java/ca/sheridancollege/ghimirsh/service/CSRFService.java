@@ -1,12 +1,17 @@
 package ca.sheridancollege.ghimirsh.service;
 
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import ca.sheridancollege.ghimirsh.beans.CSRFormat;
@@ -37,11 +42,16 @@ public class CSRFService {
 		System.out.println(obj.toString()); //for Testing
 		temp = obj;	
 		
-		//calls method to fill Sparce Matrix elements
-		fillMatrix(temp);
+		if(temp.isReadFromFile()) {
+			readMatrixFromFile(temp);
+		}else {
+			//calls method to fill Sparce Matrix elements
+			fillMatrix(temp);
+			
+			//calls method to print matrix on console for testing purpose
+			temp.printMatrix();
+		}
 		
-		//calls method to print matrix on console for testing purpose
-		temp.printMatrix();
 		
 		//calls method that calculate the array V, J and I for the CSR format
 		calculateVJI(temp);
@@ -181,6 +191,38 @@ public class CSRFService {
 		System.out.println("J: " + obj.getListJ());
 		System.out.println("I: " + obj.getListI());
 		
+	}
+	
+	public void readMatrixFromFile(CSRFormat obj) {
+	
+		File file;
+		try {
+			file = new ClassPathResource("output.txt").getFile();
+			FileReader fr = new FileReader(file);
+			BufferedReader br = new BufferedReader(fr);
+			String line = br.readLine();
+			String data = new String();
+			while(line != null) {
+				data += line + "\n";
+				line = br.readLine();
+			}
+			System.out.println("Reading data from txt file : " +  data);
+			//fillMatrix(temp);
+			//temp = objCSRFService.testCSRFService(temp);
+
+			
+			System.out.println("Printed from Controller");
+			temp.printMatrix();
+			//calculateVJI(temp);
+			System.out.println(obj.toString());
+			//return "output";
+		}
+		catch(IOException e) {
+			//return e.getMessage();
+		}
+		finally {
+			
+		}
 	}
 	
 }

@@ -126,6 +126,19 @@ public class CSRFormat {
 	public void setAvailableOptions(String[] availableOptions) {
 		this.availableOptions = availableOptions;
 	}
+	
+	
+	
+	
+
+	@Override
+	public String toString() {
+		return "CSRFormat [readFromFile=" + readFromFile + ", rowSize=" + rowSize + ", colSize=" + colSize + ", matrix="
+				+ Arrays.toString(matrix) + ", thresHold=" + thresHold + ", arrV=" + Arrays.toString(arrV) + ", arrJ="
+				+ Arrays.toString(arrJ) + ", arrI=" + Arrays.toString(arrI) + ", listV=" + listV + ", listJ=" + listJ
+				+ ", listI=" + listI + ", userOption=" + userOption + ", availableOptions="
+				+ Arrays.toString(availableOptions) + "]";
+	}
 
 	public void printMatrix() {
 		System.out.println("Auto-generated sparce matrix : ");
