@@ -58,15 +58,22 @@ nav a:hover {
 main{
     height: 90vh;
     margin: 20px;
+    
     /*text-align: center;*/
 }
 
 .main-div{
+	
 	text-align: center;
 }
 .main-hr{
 	width: 80%;
 	margin: 0 auto;
+}
+
+.main-image{
+	width: 90%;
+	text-align: center;	
 }
 
 .form-section{
